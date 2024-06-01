@@ -1,3 +1,4 @@
+'use client'
 import imagen_1 from '@/public/imagen_1.png'
 import imagen_2 from '@/public/imagen_2.png'
 import imagen_3 from '@/public/imagen_3.png'
@@ -5,6 +6,56 @@ import imagen_4 from '@/public/imagen_4.png'
 import imagen_5 from '@/public/imagen_5.png'
 
 import Image from 'next/image';
+
+import Draggable from 'react-draggable';
+
+
+const TrackItem = ({ src }) => (
+  <Draggable axis="x" bounds="parent">
+    <div className="relative h-16 bg-blue-500 dark:bg-blue-900 cursor-pointer flex items-center justify-center mx-1">
+      <img src={src} alt="track" className="h-full w-auto" />
+    </div>
+  </Draggable>
+);
+
+const Timeline = () => {
+  const tracks = [
+    { src: '/imagen_1.png', id: 1 },
+    { src: '/imagen_2.png', id: 2 },
+    { src: '/imagen_3.png', id: 3 },
+    { src: '/imagen_4.png', id: 4 },
+    { src: '/imagen_5.png', id: 5 },
+  ];
+
+  const renderTimeStamps = () => {
+    const timeStamps = [];
+    for (let i = 0; i <= 20; i++) {
+      timeStamps.push(
+        <div key={i} className="w-12 text-xs text-gray-500 text-center">
+          00:{i < 10 ? `0${i}` : i}
+        </div>
+      );
+    }
+    return timeStamps;
+  };
+
+  return (
+    <div className="relative border-t border-gray-300 overflow-hidden w-full h-full">
+      <div className="absolute top-0 left-0 h-full w-1 bg-blue-700 z-10"></div>
+      <div className="absolute top-0 left-0 flex h-6 w-full bg-gray-200 border-b border-gray-300">
+        {renderTimeStamps()}
+      </div>
+      <div className="relative flex items-center h-16 mt-8">
+        {tracks.map(track => (
+          <div key={track.id} className="relative h-full w-24">
+            <TrackItem src={track.src} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 
 export default function Home() {
   return (
@@ -230,11 +281,10 @@ export default function Home() {
         <div className='w-72 h-96 bg-white'>
          
         </div>
-
       </main>
 
       <div className='flex items-center justify-center bg-white border-b border-gray-200 md:ml-96 px-4 py-2.5 h-32 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 bottom-0 '>
-        <h1 className='text-center font-bold'> LINEA DE TIEMPO</h1>
+        <Timeline />
       </div>
 
   </div>
