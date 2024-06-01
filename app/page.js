@@ -6,19 +6,67 @@ import imagen_4 from '@/public/imagen_4.png'
 import imagen_5 from '@/public/imagen_5.png'
 
 import Image from 'next/image';
+import { useEffect, useState } from 'react'
 
 import Draggable from 'react-draggable';
 
 
 const TrackItem = ({ src }) => (
   <Draggable axis="x" bounds="parent">
-    <div className="relative h-16 bg-blue-500 dark:bg-blue-900 cursor-pointer flex items-center justify-center mx-1">
+    <div 
+      className="relative h-16 bg-blue-500 dark:bg-blue-900 cursor-pointer flex items-center justify-center mx-1">
       <img src={src} alt="track" className="h-full w-auto" />
     </div>
   </Draggable>
 );
 
 const Timeline = () => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [posicion, setPosicion] = useState(0);
+  const [posicionInicial, setPosicionInicial] = useState(0);
+  const [translateInicial, setTranslateInicial] = useState(0);
+
+  const handleMouseMove = (event) => {
+    if(isDragging){
+      console.log({ x: event.clientX, y: event.clientY });
+      if((event.clientX + translateInicial) - posicionInicial >= 0){
+        setPosicion(translateInicial + event.clientX - posicionInicial );
+      }
+    }
+  };
+
+  const handleMouseDown = (event) => {
+    setPosicionInicial( event.clientX );
+    setTranslateInicial(posicion);
+    setIsDragging(true);
+  };
+
+  const handleMouseUp = (event) => {
+    setPosicionInicial( event.clientX );
+    setTranslateInicial(posicion);
+    setIsDragging(false);
+  };
+
+  useEffect(()=>{
+    console.log(posicion)
+  },[posicion])
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    } else {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [isDragging]);
+
+
   const tracks = [
     { src: '/imagen_1.png', id: 1 },
     { src: '/imagen_2.png', id: 2 },
@@ -31,7 +79,7 @@ const Timeline = () => {
     const timeStamps = [];
     for (let i = 0; i <= 20; i++) {
       timeStamps.push(
-        <div key={i} className="w-12 text-xs text-gray-500 text-center">
+        <div key={i} className="w-12 text-xs text-gray-500 dark:text-gray-50 text-center">
           00:{i < 10 ? `0${i}` : i}
         </div>
       );
@@ -41,8 +89,14 @@ const Timeline = () => {
 
   return (
     <div className="relative border-t border-gray-300 overflow-hidden w-full h-full">
-      <div className="absolute top-0 left-0 h-full w-1 bg-blue-700 z-10"></div>
-      <div className="absolute top-0 left-0 flex h-6 w-full bg-gray-200 border-b border-gray-300">
+      <div className="absolute h-full w-1 bg-blue-700 z-10 cursor-pointer" 
+        onMouseDown={handleMouseDown}
+        style={{translate: posicion}}>
+        <div className='w-5 h-5 bg-blue-700 rounded-full absolute -left-1.5'> 
+
+        </div>
+      </div>
+      <div className="absolute top-0 left-0 flex items-center h-5 w-full bg-gray-200 dark:bg-gray-600 border-b border-gray-300">
         {renderTimeStamps()}
       </div>
       <div className="relative flex items-center h-16 mt-8">
@@ -283,7 +337,7 @@ export default function Home() {
         </div>
       </main>
 
-      <div className='flex items-center justify-center bg-white border-b border-gray-200 md:ml-96 px-4 py-2.5 h-32 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 bottom-0 '>
+      <div className='flex items-center select-none justify-center bg-white border-b border-gray-200 md:ml-96 px-4 py-2.5 h-32 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 bottom-0 '>
         <Timeline />
       </div>
 
