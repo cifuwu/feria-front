@@ -24,6 +24,13 @@ export default function Home() {
   const [subiendo, setSubiendo] = useState(false);
   const [activeTab, setActiveTab] = useState('images');
 
+  const [idGuion, setIdGuion] = useState();
+
+
+  useEffect(()=>{
+    console.log('id del guion generado: ')
+    console.log(idGuion);
+  },[idGuion])
 
   return (
     <div className="antialiased bg-gray-50 dark:bg-gray-900">
@@ -123,7 +130,7 @@ export default function Home() {
             </button>
 
 
-            <BotonCompartirVideo />
+            <BotonCompartirVideo idGuion={idGuion}/>
 
           </div>
         </div>
@@ -203,7 +210,7 @@ export default function Home() {
         
 
         <div className='absolute bottom-0 left-0 w-full px-4 mb-2'>
-          <ModalGenerarVideoIa />
+          <ModalGenerarVideoIa setIdGuion={setIdGuion}/>
         </div>
         
 

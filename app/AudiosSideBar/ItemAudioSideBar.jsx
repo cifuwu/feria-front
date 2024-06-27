@@ -63,7 +63,7 @@ export default function ItemAudioSideBar({audio, actualizar=()=>{}}) {
   
   
   return (
-    <div className='border rounded-lg px-4 py-1 flex items-center relative cursor-pointer group'>
+    <div className='border rounded-lg px-4 py-2 flex items-center relative cursor-pointer group'>
       <div className='absolute top-0 right-8' ref={dropdownRef}>
         <button onClick={() => { setShowDropDown(!showDropDown) }} className={`absolute ${!showDropDown && 'hidden group-hover:block'}  p-0.5 m-1  border-gray-500 bg-gray-700/30 hover:bg-gray-700/40 rounded`}>
           <FaEllipsis className='text-xl text-white' />

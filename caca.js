@@ -397,3 +397,6 @@ export const datosprueba = {  "generated_video": {
   ]
 }
 }
+
+
+/// plantilla u estilo de edicion (subtitulo, estilo de guión y estilo de edición)
