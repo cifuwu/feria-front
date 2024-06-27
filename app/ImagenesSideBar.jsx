@@ -29,6 +29,10 @@ export default function ImagenesSideBar({subiendo=false}) {
     }
   },[subiendo])
 
+  useEffect(()=>{
+    console.log(data);
+  },[data])
+
   return (
     <>
     {isLoading && <h1 className='pl-5 pr-3 mt-7 font-semibold text-gray-700 dark:text-gray-300'>Cargando...</h1>}

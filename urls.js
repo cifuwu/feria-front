@@ -1,4 +1,4 @@
-const URL = 'https://5564-190-160-209-213.ngrok-free.app/'
+const URL = 'https://5564-190-160-209-213.ngrok-free.app'
 
 export const URL_VIDEOS = URL + '/storage/videos/'
 export const URL_AUDIOS = URL + '/storage/audios/'
